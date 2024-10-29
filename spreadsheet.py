@@ -15,19 +15,13 @@ class SpreadSheet:
 
     def evaluate(self, cell: str) -> Union[int, str]:
         if cell in self._evaluating:
-            return "#Error"
+            return "#Circular"
         self._evaluating.add(cell)
         value = self.get(cell)
         if value.startswith("'") and value.endswith("'"):
             result = value[1:-1]
         elif value.startswith("="):
-            if value[1:].isdigit():
-                result = int(value[1:])
-            elif value[1:].startswith("'") and value[-1] == "'":
-                result = value[2:-1]
-            else:
-                referenced_cell = value[1:]
-                result = self.evaluate(referenced_cell)
+            result = self.evaluate_formula(value)
         else:
             try:
                 result = int(value)
@@ -35,4 +29,12 @@ class SpreadSheet:
                 result = "#Error"
         self._evaluating.remove(cell)
         return result
+
+    def evaluate_formula(self, value: str) -> Union[int, str]:
+        if value[1:].isdigit():
+            return int(value[1:])
+        if value[1:].startswith("'") and value[-1] == "'":
+            return value[2:-1]
+        referenced_cell = value[1:]
+        return self.evaluate(referenced_cell)
 
