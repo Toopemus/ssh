@@ -66,3 +66,9 @@ class TestSpreadSheet(TestCase):
         sheet.set("B1", "=A1")
         value = sheet.evaluate("A1")
         self.assertEqual("#Circular", value)
+
+    def test_evaluate_formula_simple_addition(self):
+        sheet = SpreadSheet()
+        sheet.set("A1", "=1+3")
+        value = sheet.evaluate("A1")
+        self.assertEqual(4, value)
