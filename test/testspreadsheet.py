@@ -21,3 +21,9 @@ class TestSpreadSheet(TestCase):
         sheet.set("A1", "'Apple'")
         value = sheet.evaluate("A1")
         self.assertEqual("Apple", value)
+
+    def test_evaluate_non_valid_string(self):
+        sheet = SpreadSheet()
+        sheet.set("A1", "Apple")
+        value = sheet.evaluate("A1")
+        self.assertEqual("#Error", value)
