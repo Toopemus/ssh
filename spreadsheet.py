@@ -14,8 +14,10 @@ class SpreadSheet:
         return self._cells.get(cell, '')
 
     def evaluate(self, cell: str) -> Union[int, str]:
-        value = self._cells.get(cell, '')
-        if value.isdigit():
-            return int(value)
-        return value
+        value = self.get(cell)
+        try:
+            int_value = int(value)
+            return int_value
+        except ValueError:
+            return "#Error"
 
