@@ -20,11 +20,12 @@ class SpreadSheet:
         if value.startswith("="):
             if value[1:].startswith("'") and value[-1] == "'":
                 return value[2:-1]
-            else:
-                return value[1:]
+            try:
+                return int(value[1:])
+            except ValueError:
+                return "#Error"
         try:
-            int_value = int(value)
-            return int_value
+            return int(value)
         except ValueError:
             return "#Error"
 
