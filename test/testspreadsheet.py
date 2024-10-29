@@ -45,3 +45,10 @@ class TestSpreadSheet(TestCase):
         sheet.set("A1", "='Apple")
         value = sheet.evaluate("A1")
         self.assertEqual("#Error", value)
+
+    def test_evaluate_formula_with_reference_valid_int(self):
+        sheet = SpreadSheet()
+        sheet.set("A1", "=B1")
+        sheet.set("B1", "=42")
+        value = sheet.evaluate("A1")
+        self.assertEqual(42, value)
